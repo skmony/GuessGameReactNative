@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Alert } from "react-native";
 import NumberContainer from "../components/Game/NumberContainer";
+import PrimaryButton from "../components/UI/PrimaryButton";
 import Title from "../components/UI/Title";
 
 function generateRandomBetween(min, max, exclude) {
@@ -13,9 +14,40 @@ function generateRandomBetween(min, max, exclude) {
   }
 }
 
+let minBoundary = 1;
+let maxBoundary = 100;
+
 function GameScreen({ selectedNumber }) {
-  const init = generateRandomBetween(1, 100, selectedNumber);
+  const init = generateRandomBetween(minBoundary, maxBoundary, selectedNumber);
   const [currentGuess, setCurrentGuess] = useState(init);
+
+  function nextGuessHandler(direction) {
+    if (
+      (direction && currentGuess < selectedNumber) ||
+      (!direction && currentGuess > selectedNumber)
+    ) {
+      Alert.alert("Don't lie", "You know this is wrong..,", [
+        {
+          text: "Sorry!",
+          style: "cancel",
+        },
+      ]);
+      return;
+    }
+    if (direction) {
+      maxBoundary = currentGuess - 1;
+    } else {
+      minBoundary = currentGuess + 1;
+    }
+
+    const newGuessNumber = generateRandomBetween(
+      minBoundary,
+      maxBoundary,
+      currentGuess
+    );
+
+    setCurrentGuess(newGuessNumber);
+  }
 
   return (
     <View style={styles.screen}>
@@ -24,7 +56,14 @@ function GameScreen({ selectedNumber }) {
       <NumberContainer>{currentGuess}</NumberContainer>
       <View>
         <Text>Higher or lower</Text>
-        {/* + - */}
+        <View style={styles.buttons}>
+          <PrimaryButton onPress={nextGuessHandler.bind(this, true)}>
+            -
+          </PrimaryButton>
+          <PrimaryButton onPress={nextGuessHandler.bind(this, false)}>
+            +
+          </PrimaryButton>
+        </View>
       </View>
       {/* <View> Log Rounds</View> */}
     </View>
@@ -35,6 +74,9 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 40,
+  },
+  buttons: {
+    flexDirection: "row",
   },
 });
 
