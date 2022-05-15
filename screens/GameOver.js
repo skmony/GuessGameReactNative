@@ -1,4 +1,5 @@
 import { View, Image, StyleSheet, Text } from "react-native";
+import PrimaryButton from "../components/UI/PrimaryButton";
 import Title from "../components/UI/Title";
 import Colors from "../constants/colors";
 function GameOver() {
@@ -12,8 +13,12 @@ function GameOver() {
         />
       </View>
       <View>
-        <Text>Your phone nneded X times to guess the number Y</Text>
+        <Text style={styles.summaryText}>
+          Your phone nneded <Text style={styles.highlight}>X</Text> times to
+          guess the number <Text style={styles.highlight}>Y</Text>
+        </Text>
       </View>
+      <PrimaryButton>Start New Game</PrimaryButton>
     </View>
   );
 }
@@ -39,5 +44,15 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
+  },
+  summaryText: {
+    fontFamily: "open-sans",
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 24,
+  },
+  highlight: {
+    fontFamily: "open-sans-bold",
+    color: Colors.primary500,
   },
 });
