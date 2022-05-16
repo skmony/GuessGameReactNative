@@ -101,7 +101,7 @@ function GameScreen({ userNumber, onGameOver }) {
             />
           )}
           keyExtractor={(item) => item}
-        ></FlatList>
+        />
       </View>
     </View>
   );
