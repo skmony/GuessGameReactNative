@@ -80,10 +80,12 @@ function GameScreen({ userNumber, onGameOver }) {
 
   let content = (
     <>
+      <NumberContainer>{currentGuess}</NumberContainer>
       <Card>
         <InstructionText style={styles.instructionText}>
           Higher or lower?
         </InstructionText>
+
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
